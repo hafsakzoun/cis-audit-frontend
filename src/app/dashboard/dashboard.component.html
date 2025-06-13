@@ -1,0 +1,133 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <!-- Quick Access Cards -->
+    <div class="row">
+      <!-- Audit Overview -->
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-warning card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">dashboard</i>
+            </div>
+            <p class="card-category">Audit Overview</p>
+            <h3 class="card-title">56 Audits</h3>
+          </div>
+          <div class="card-footer">
+            <div class="stats">
+              <i class="material-icons">visibility</i>
+              <a href="#audit-overview">View Dashboard</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CIS Benchmarks -->
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-success card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">security</i>
+            </div>
+            <p class="card-category">CIS Benchmarks</p>
+            <h3 class="card-title">98 Rules</h3>
+          </div>
+          <div class="card-footer">
+            <div class="stats">
+              <i class="material-icons">list</i>
+              <a href="#cis-controls">View Controls</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Script Execution -->
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-danger card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">terminal</i>
+            </div>
+            <p class="card-category">Script Execution</p>
+            <h3 class="card-title">38 Runs</h3>
+          </div>
+          <div class="card-footer">
+            <div class="stats">
+              <i class="material-icons">play_arrow</i>
+              <a href="#script-execution">Run Scripts</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Audit Reports -->
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-info card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">assessment</i>
+            </div>
+            <p class="card-category">Audit Reports</p>
+            <h3 class="card-title">Latest</h3>
+          </div>
+          <div class="card-footer">
+            <div class="stats">
+              <i class="material-icons">file_download</i>
+              <a href="#audit-results">View Reports</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Full Dashboard Sections with Embedded Kibana iFrames -->
+    <div class="row">
+      <div class="col-lg-12" id="audit-overview">
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <h4 class="card-title">Audit Overview</h4>
+            <p class="card-category">General statistics of all audits</p>
+          </div>
+          <div class="card-body">
+            <iframe [src]="auditOverviewUrl" width="100%" height="600" frameborder="0"></iframe>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-12" id="cis-controls">
+        <div class="card">
+          <div class="card-header card-header-success">
+            <h4 class="card-title">CIS Benchmarks & Controls</h4>
+            <p class="card-category">Security configuration checks</p>
+          </div>
+          <div class="card-body">
+            <iframe [src]="cisControlsUrl" width="100%" height="600" frameborder="0"></iframe>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-12" id="script-execution">
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title">Script Generation & Execution</h4>
+            <p class="card-category">Execution logs & statistics</p>
+          </div>
+          <div class="card-body">
+            <iframe [src]="scriptExecutionUrl" width="100%" height="600" frameborder="0"></iframe>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-12" id="audit-results">
+        <div class="card">
+          <div class="card-header card-header-info">
+            <h4 class="card-title">Audit Results & Reporting</h4>
+            <p class="card-category">Compliance status and history</p>
+          </div>
+          <div class="card-body">
+            <iframe [src]="auditResultsUrl" width="100%" height="600" frameborder="0"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,118 @@
+<div class="main-content">
+  <div class="container-fluid">
+
+        <!-- PDF to CSV -->
+        <div class="card mt-4">
+            <div class="card-header card-header-danger text-center">
+                <h4 class="card-title">CIS Benchmark Extractor</h4>
+                <p class="card-category">Upload a CIS PDF benchmark and extract rules to CSV format</p>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-5">
+                    <h2 class="text-danger font-weight-bold">PDF to CSV Tool</h2>
+                    <p class="text-muted">Automate extraction of security controls from official PDFs.</p>
+                </div>
+
+                <div class="row justify-content-center align-items-center mb-4">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="fileUpload" class="bmd-label-floating">Select CIS Benchmark PDF</label>
+                            <input id="fileUpload" type="file" class="form-control-file" (change)="onFileSelected($event)" accept="application/pdf">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <button class="btn btn-danger btn-block" (click)="uploadFile()" [disabled]="!selectedFile">
+                            <i class="material-icons">cloud_upload</i> Extract CSV
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center mt-4" *ngIf="downloadLink">
+                    <div class="col-md-6 text-center">
+                        <a class="btn btn-success btn-lg" [href]="downloadLink" download="extracted.csv">
+                            <i class="material-icons">file_download</i> Download Extracted CSV
+                        </a>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center mt-4" *ngIf="!selectedFile">
+                    <div class="col-md-8 text-center">
+                        <small class="text-muted">
+                            Only upload official CIS Benchmark PDF documents. The tool parses structured content based on standard format.
+                        </small>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- CSV to Database Card -->
+        <div class="card mt-4">
+            <div class="card-header card-header-info text-center">
+                <h4 class="card-title">Save to Database</h4>
+                <p class="card-category">Push extracted data into Elasticsearch</p>
+            </div>
+            <div class="card-body text-center">
+                <p class="mb-3 text-muted">
+                    Once you've downloaded the CSV or verified it, you can push the extracted rules into your Elasticsearch instance.
+                </p>
+
+                <button class="btn btn-info btn-lg" (click)="saveToDatabase()" [disabled]="!csvReady">
+                    <i class="material-icons">save</i> Save to Elasticsearch
+                </button>
+
+                <div class="mt-3" *ngIf="saveStatus">
+                    <span [ngClass]="{
+                        'text-success': saveStatus === 'success',
+                        'text-danger': saveStatus === 'error'
+                    }">
+                        {{ saveMessage }}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Extracted files table -->
+        <div class="card mt-4">
+            <div class="card-header card-header-danger text-center">
+                <h4 class="card-title ">Extracted filese</h4>
+                <p class="card-category"> Here is a subtitle for this table</p>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class=" text-primary">
+                            <th>#</th>
+                            <th>File Name</th>
+                            <th>Extraction Time</th>
+                            <th>CSV Size</th>
+                            <th>Actions</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let entry of extractedEntries; let i = index">
+                                <td>{{ i + 1 }}</td>
+                                <td>{{ entry.fileName }}</td>
+                                <td>{{ entry.extractedAt | date:'short' }}</td>
+                                <td>{{ entry.csv.length }} bytes</td>
+                                <td>
+                                    <span class="badge" [ngClass]="entry.saved ? 'badge-success' : 'badge-warning'">
+                                        {{ entry.saved ? 'Yes' : 'Pending' }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <a class="btn btn-sm btn-success" [href]="entry.downloadLink" download="{{ entry.fileName }}.csv">
+                                        <i class="material-icons">file_download</i> Download
+                                    </a>
+                                    <button class="btn btn-sm btn-info" (click)="saveSingleToDatabase(entry)" [disabled]="entry.saved">
+                                        <i class="material-icons">save</i> Save
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

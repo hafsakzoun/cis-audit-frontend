@@ -1,0 +1,98 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Left Column -->
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title">Script Generator</h4>
+            <p class="card-category">Generate Audit script</p>
+          </div>
+          <div class="card-body">
+            <form>
+              <div class="row">
+                <div class="col-md-6">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Category</mat-label>
+                    <mat-select>
+                      <mat-option value="security">Operating system</mat-option>
+                      <mat-option value="compliance">Database</mat-option>
+                      <mat-option value="performance">Firewall</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Solution</mat-label>
+                    <mat-select>
+                      <mat-option value="solution1">Solution 1</mat-option>
+                      <mat-option value="solution2">Solution 2</mat-option>
+                      <mat-option value="solution3">Solution 3</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Benchmark Version</mat-label>
+                    <mat-select>
+                      <mat-option value="v1.0">v1.0</mat-option>
+                      <mat-option value="v2.0">v2.0</mat-option>
+                      <mat-option value="v3.0">v3.0</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Solution Version</mat-label>
+                    <mat-select>
+                      <mat-option value="1.0">2020</mat-option>
+                      <mat-option value="2.0">11</mat-option>
+                      <mat-option value="3.0">3.0</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <label>Audit Notes</label>
+                  <mat-form-field class="example-full-width">
+                    <textarea matInput placeholder="Describe key observations, issues, or remarks here..."></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <button mat-raised-button type="submit" class="btn btn-danger pull-right">Generate Audit Script</button>
+              <div class="clearfix"></div>
+            </form>
+          </div> <!-- card-body -->
+        </div> <!-- card -->
+      </div> <!-- col-md-8 -->
+
+    <!-- Right Column -->
+    <div class="col-md-4">
+      <div class="card card-profile">
+        <div class="card-body text-center">
+          <h6 class="card-category text-gray">Audit Toolkit</h6>
+          <h4 class="card-title">Automation Helper</h4>
+          <p class="card-description">
+            Download a pre-generated script tailored to your audit inputs. Run locally or share it with your team for faster results.
+          </p>
+
+          <!-- Download Script Button -->
+          <button mat-raised-button color="primary" class="btn btn-danger btn-round mb-2">
+            Download Script
+          </button>
+
+          <!-- Optional: View Summary or Run Audit -->
+          <button mat-raised-button color="accent" class="btn btn-accent btn-round">
+            View Summary
+          </button>
+        </div>
+      </div>
+    </div>

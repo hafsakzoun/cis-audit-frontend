@@ -1,0 +1,14 @@
+.logo {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.logo-img img {
+  width: 150px;
+  transition: transform 0.3s ease;
+}
+
+.logo-img img:hover {
+  transform: scale(1.05);
+}

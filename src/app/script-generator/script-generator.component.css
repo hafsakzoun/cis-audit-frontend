@@ -1,0 +1,9 @@
+.text-success {
+  color: #4caf50;
+  font-weight: 500;
+}
+
+.btn-danger {
+  background-color: #e53935;
+  color: white;
+}

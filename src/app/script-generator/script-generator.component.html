@@ -1,98 +1,149 @@
 <div class="main-content">
   <div class="container-fluid">
-    <div class="row">
-      <!-- Left Column -->
+    <div class="row justify-content-center">
       <div class="col-md-8">
-        <div class="card">
-          <div class="card-header card-header-danger">
+        <!-- Script Generator Card -->
+        <div class="card mb-4">
+          <div class="card-header card-header-danger text-center">
             <h4 class="card-title">Script Generator</h4>
             <p class="card-category">Generate Audit script</p>
           </div>
           <div class="card-body">
             <form>
+              <!-- Row 1: Category + Solution -->
               <div class="row">
                 <div class="col-md-6">
-                  <mat-form-field class="example-full-width">
+                  <mat-form-field appearance="fill" class="example-full-width" floatLabel="always">
                     <mat-label>Category</mat-label>
-                    <mat-select>
-                      <mat-option value="security">Operating system</mat-option>
-                      <mat-option value="compliance">Database</mat-option>
-                      <mat-option value="performance">Firewall</mat-option>
+                    <mat-select
+                      [(value)]="selectedCategory"
+                      (selectionChange)="onCategoryChange()"
+                      [disabled]="isLoadingCategories"
+                    >
+                      <mat-option *ngIf="isLoadingCategories" disabled>Loading...</mat-option>
+                      <mat-option *ngFor="let cat of categories" [value]="cat">{{ cat }}</mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
-
                 <div class="col-md-6">
-                  <mat-form-field class="example-full-width">
+                  <mat-form-field appearance="fill" class="example-full-width" floatLabel="always">
                     <mat-label>Solution</mat-label>
-                    <mat-select>
-                      <mat-option value="solution1">Solution 1</mat-option>
-                      <mat-option value="solution2">Solution 2</mat-option>
-                      <mat-option value="solution3">Solution 3</mat-option>
+                    <mat-select
+                      [(value)]="selectedSolution"
+                      (selectionChange)="onSolutionChange()"
+                      [disabled]="!selectedCategory || isLoadingSolutions"
+                    >
+                      <mat-option *ngIf="isLoadingSolutions" disabled>Loading...</mat-option>
+                      <mat-option *ngFor="let sol of solutions" [value]="sol">{{ sol }}</mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
               </div>
 
+              <!-- Row 2: Benchmark Version + Solution Version -->
               <div class="row">
                 <div class="col-md-6">
-                  <mat-form-field class="example-full-width">
+                  <mat-form-field appearance="fill" class="example-full-width" floatLabel="always">
                     <mat-label>Benchmark Version</mat-label>
-                    <mat-select>
-                      <mat-option value="v1.0">v1.0</mat-option>
-                      <mat-option value="v2.0">v2.0</mat-option>
-                      <mat-option value="v3.0">v3.0</mat-option>
+                    <mat-select
+                      [(value)]="selectedBenchmarkVersion"
+                      [disabled]="!selectedSolution || isLoadingBenchmarkVersions"
+                    >
+                      <mat-option *ngIf="isLoadingBenchmarkVersions" disabled>Loading...</mat-option>
+                      <mat-option *ngFor="let version of benchmarkVersions" [value]="version">{{ version }}</mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
-
                 <div class="col-md-6">
-                  <mat-form-field class="example-full-width">
+                  <mat-form-field appearance="fill" class="example-full-width" floatLabel="always">
                     <mat-label>Solution Version</mat-label>
-                    <mat-select>
-                      <mat-option value="1.0">2020</mat-option>
-                      <mat-option value="2.0">11</mat-option>
-                      <mat-option value="3.0">3.0</mat-option>
+                    <mat-select
+                      [(value)]="selectedSolutionVersion"
+                      [disabled]="!selectedSolution || isLoadingSolutionVersions"
+                    >
+                      <mat-option *ngIf="isLoadingSolutionVersions" disabled>Loading...</mat-option>
+                      <mat-option *ngFor="let version of solutionVersions" [value]="version">{{ version }}</mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
               </div>
 
+              <!-- Audit Notes -->
               <div class="row">
                 <div class="col-md-12">
-                  <label>Audit Notes</label>
-                  <mat-form-field class="example-full-width">
+                  <mat-form-field appearance="fill" class="example-full-width" floatLabel="always">
+                    <mat-label>Audit Notes</mat-label>
                     <textarea matInput placeholder="Describe key observations, issues, or remarks here..."></textarea>
                   </mat-form-field>
                 </div>
               </div>
 
-              <button mat-raised-button type="submit" class="btn btn-danger pull-right">Generate Audit Script</button>
+              <!-- Generate Button -->
+              <button
+                mat-raised-button
+                color="warn"
+                type="button"
+                class="btn pull-right"
+                [disabled]="!selectedBenchmarkVersion || !selectedSolutionVersion || isGeneratingScript"
+                [ngClass]="{ 'btn-danger': selectedBenchmarkVersion && selectedSolutionVersion }"
+                (click)="generateAuditScript()"
+              >
+                {{ isGeneratingScript ? 'Generating...' : 'Generate Audit Script' }}
+              </button>
               <div class="clearfix"></div>
             </form>
-          </div> <!-- card-body -->
-        </div> <!-- card -->
-      </div> <!-- col-md-8 -->
+          </div>
+        </div>
 
-    <!-- Right Column -->
-    <div class="col-md-4">
-      <div class="card card-profile">
-        <div class="card-body text-center">
-          <h6 class="card-category text-gray">Audit Toolkit</h6>
-          <h4 class="card-title">Automation Helper</h4>
-          <p class="card-description">
-            Download a pre-generated script tailored to your audit inputs. Run locally or share it with your team for faster results.
-          </p>
+        <!-- Script Result Output -->
+        <div class="text-center mb-4">
+          <mat-progress-spinner *ngIf="isGeneratingScript" diameter="25" mode="indeterminate"></mat-progress-spinner>
 
-          <!-- Download Script Button -->
-          <button mat-raised-button color="primary" class="btn btn-danger btn-round mb-2">
-            Download Script
-          </button>
+          <div *ngIf="numberOfRules !== null && !isGeneratingScript" class="text-success mb-2">
+            ✅ {{ numberOfRules }} rules generated successfully!
+          </div>
 
-          <!-- Optional: View Summary or Run Audit -->
-          <button mat-raised-button color="accent" class="btn btn-accent btn-round">
-            View Summary
-          </button>
+          <div *ngIf="generationResult && !isGeneratingScript">
+            <mat-form-field appearance="outline" class="w-100">
+              <textarea matInput [value]="generationResult" rows="10" readonly></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- Audit Toolkit -->
+        <div *ngIf="generationResult && !isGeneratingScript" class="card card-profile">
+          <div class="card-body text-center">
+            <h6 class="card-category text-gray">Audit Toolkit</h6>
+            <h4 class="card-title">Automation Helper</h4>
+            <p class="card-description">
+              Download or share the script you generated.
+            </p>
+
+            <!-- Buttons -->
+            <button
+              mat-raised-button
+              color="primary"
+              class="btn btn-round mb-2 mr-2"
+              (click)="downloadScript()"
+            >
+              Download Script
+            </button>
+
+            <button
+              mat-raised-button
+              color="accent"
+              class="btn btn-round mb-2"
+              (click)="shareScriptViaEmail()"
+            >
+              Share via Email
+            </button>
+
+            <button mat-raised-button color="accent" class="btn btn-accent btn-round mt-2">
+              View Summary
+            </button>
+          </div>
         </div>
       </div>
     </div>
+  </div>
+</div>

@@ -135,12 +135,12 @@
                   </span>
                 </td>
                 <td>
-                  <a class="btn btn-sm btn-success" 
-                    [href]="entry.downloadLink" 
-                    [attr.download]="entry.fileName + '.csv'">
+                  <!-- Download button -->
+                  <button class="btn btn-sm btn-success"
+                          (click)="downloadCSV(entry.csv, entry.fileName)">
                     <i class="material-icons">file_download</i> Download
-                  </a>
-
+                  </button>
+                  <!-- Save button -->
                   <button class="btn btn-sm btn-info" (click)="saveSingleToDatabase(entry)" [disabled]="entry.saved">
                     <i class="material-icons">save</i> Save
                   </button>

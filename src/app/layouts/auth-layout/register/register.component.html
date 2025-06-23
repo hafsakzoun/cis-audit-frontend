@@ -1,0 +1,69 @@
+<body class="d-flex flex-column min-vh-100">
+  <div class="register flex-grow-1 d-flex flex-column">
+        <div class="d-flex flex-grow-1 px-4" style="gap: 15rem;">
+      <div class="col-md-4 register-left d-flex flex-column align-items-center justify-content-center text-white p-4">
+        <img src="assets/img/logos/logo_data_blanc2.png" alt="DataProtect Logo" class="mb-4" style="max-width: 200px;" />
+        <h3 class="fw-bold mb-2">Welcome to CIS Secure</h3>
+        <p class="text-center mb-4" style="font-size: 0.95rem;">
+          Get started with the CIS Benchmark Audit Tool. Your path to secure configurations starts here.
+        </p>
+        <a [routerLink]="['/auth', 'login']" class="btn btn-outline-light px-4 py-2 rounded-pill shadow-sm">Login</a>
+      </div>
+
+    <div class="register-right d-flex justify-content-center align-items-start flex-grow-1">
+      <div class="register-form w-100">
+        <h3 class="register-heading mb-4">Register Form</h3>
+
+        <!-- First row -->
+        <div class="row mb-4 gx-4">
+          <div class="col-md-6">
+            <input type="text" class="form-control form-control-lg" placeholder="First Name *" />
+          </div>
+          <div class="col-md-6">
+            <input type="text" class="form-control form-control-lg" placeholder="Last Name *" />
+          </div>
+        </div>
+
+        <!-- Email row -->
+        <div class="row mb-4">
+          <div class="col-md-12">
+            <input type="email" class="form-control form-control-lg" placeholder="Your Email *" />
+          </div>
+        </div>
+
+        <!-- Passwords row -->
+        <div class="row mb-4 gx-4">
+          <div class="col-md-6">
+            <input type="password" class="form-control form-control-lg" placeholder="Password *" />
+          </div>
+          <div class="col-md-6">
+            <input type="password" class="form-control form-control-lg" placeholder="Confirm Password *" />
+          </div>
+        </div>
+
+        <!-- Submit button row -->
+        <div class="row">
+          <div class="col-12">
+            <input type="submit" class="btnRegister btn btn-primary" value="Register" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+    <footer class="footer text-white mt-auto">
+      <div class="container d-flex justify-content-between align-items-center flex-wrap py-3">
+        <ul class="nav mb-0">
+          <li class="nav-item"><a href="#" class="nav-link px-2">CIS Audit</a></li>
+          <li class="nav-item"><a href="#" class="nav-link px-2">About</a></li>
+          <li class="nav-item"><a href="#" class="nav-link px-2">Audit</a></li>
+          <li class="nav-item"><a href="#" class="nav-link px-2">Licenses</a></li>
+        </ul>
+        <p class="mb-0 text-muted small">
+          &copy; 2025, made with <span class="text-danger">❤️</span> by 
+          <a href="#" class="text-decoration-none text-white fw-semibold">AKZ Hafsa</a>
+        </p>
+      </div>
+    </footer>
+</body>

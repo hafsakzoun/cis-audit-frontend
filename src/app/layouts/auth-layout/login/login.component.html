@@ -1,0 +1,56 @@
+<body class="d-flex flex-column min-vh-100">
+  <div class="register flex-grow-1 d-flex flex-column">
+    <div class="d-flex flex-grow-1 px-4" style="gap: 15rem;">
+        <!-- Left side -->
+         
+        <div class="register-left d-flex flex-column align-items-center justify-content-center text-white p-4">
+            <img src="assets/img/logos/logo_data_blanc2.png" alt="DataProtect Logo" class="mb-4" style="max-width: 200px;" />
+            <h3 class="fw-bold mb-2">All in one</h3>
+            <p class="text-center mb-4" style="font-size: 0.8rem;">
+                Welcome back to the CIS Benchmark Audit Tool, your trusted solution for maintaining security compliance and operational excellence.            
+            </p>
+            <a [routerLink]="['/auth', 'register']" class="btn btn-outline-light px-4 py-2 rounded-pill shadow-sm">Register</a>
+        </div>
+
+        <!-- Right side -->
+        <div class="register-right d-flex justify-content-center align-items-center">
+            <div class="register-form" style="width: 100%; max-width: 480px;">
+          <h3 class="register-heading mb-4 text-center">Login</h3>
+          <!-- Email input -->
+          <div class="row mb-4">
+            <div class="col-md-12">
+              <input type="email" class="form-control form-control-lg" placeholder="Email *" />
+            </div>
+          </div>
+          <!-- Password input -->
+          <div class="row mb-4">
+            <div class="col-md-12">
+              <input type="password" class="form-control form-control-lg" placeholder="Password *" />
+            </div>
+          </div>
+          <!-- Login button -->
+          <div class="row">
+            <div class="col-12">
+              <input type="submit" class="btnRegister btn btn-primary" value="Login" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Footer -->
+  <footer class="footer text-white mt-auto">
+    <div class="container d-flex justify-content-between align-items-center flex-wrap py-3">
+      <ul class="nav mb-0">
+        <li class="nav-item"><a href="#" class="nav-link px-2">CIS Audit</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2">About</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2">Audit</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2">Licenses</a></li>
+      </ul>
+      <p class="mb-0 text-muted small">
+        &copy; 2025, made with <span class="text-danger">❤️</span> by 
+        <a href="#" class="text-decoration-none text-white fw-semibold">AKZ Hafsa</a>
+      </p>
+    </div>
+  </footer>
+</body>

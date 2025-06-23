@@ -105,25 +105,35 @@ export class RulesExtractorComponent {
   }
 
   downloadCSV(csvData: string, filename: string): void {
-    try {
-      const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
-      const url = window.URL.createObjectURL(blob);
-      const anchor = document.createElement('a');
-
-      anchor.href = url;
-      anchor.setAttribute('download', filename);
-      anchor.style.display = 'none';
-
-      document.body.appendChild(anchor);
-      anchor.click();
-      document.body.removeChild(anchor);
-      window.URL.revokeObjectURL(url);
-
-      console.log('⬇ Download triggered for:', filename);
-    } catch (err) {
-      console.error('❌ Error triggering CSV download:', err);
+  try {
+    if (!csvData) {
+      console.warn('⚠️ No CSV data provided');
+      return;
     }
+
+    console.log('⬇ Attempting download...');
+    console.log('📄 Filename:', filename);
+    console.log('📊 CSV Data Preview:', csvData.slice(0, 100)); // Show sample
+
+    const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+    const url = window.URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+
+    anchor.href = url;
+    anchor.setAttribute('download', filename || 'download.csv');
+    anchor.style.display = 'none';
+
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
+    window.URL.revokeObjectURL(url);
+
+    console.log('✅ Download triggered successfully');
+  } catch (err) {
+    console.error('❌ Error triggering CSV download:', err);
   }
+}
+
 
   saveToDatabase(): void {
     if (!this.csvReady || !this.extractedCSVData) {

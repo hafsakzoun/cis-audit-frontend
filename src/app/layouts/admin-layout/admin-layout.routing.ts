@@ -9,13 +9,15 @@ import { MyProfileComponent } from '../../my-profile/my-profile.component';
 import { NotificationsComponent } from '../../notifications/notifications.component';
 import { AboutComponent } from '../../about/about.component';
 
+
 export const AdminLayoutRoutes: Routes = [
-    { path: 'dashboard',      component: DashboardComponent },
-    { path: 'script-generator',   component: ScriptGeneratorComponent },
-    { path: 'scripts-list',     component: ScriptsListComponent },
-    { path: 'rules-extractor',     component: RulesExtractorComponent },
-    { path: 'audit-history',          component: AuditHistoryComponent },
-    { path: 'my-profile',           component: MyProfileComponent },
-    { path: 'notifications',  component: NotificationsComponent },
-    { path: 'about',        component: AboutComponent },
+    { path: 'dashboard', component: DashboardComponent },
+    { path: 'script-generator', component: ScriptGeneratorComponent },
+    { path: 'scripts-list', component: ScriptsListComponent },
+    { path: 'rules-extractor', component: RulesExtractorComponent },
+    { path: 'audit-history', component: AuditHistoryComponent },
+    { path: 'my-profile', component: MyProfileComponent },
+    { path: 'notifications', component: NotificationsComponent },
+    { path: 'about', component: AboutComponent },,
 ];
+

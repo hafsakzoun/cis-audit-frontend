@@ -1,29 +1,176 @@
-
 <div class="main-content">
   <div class="container-fluid">
-      <div class="card card-plain">
-          <div class="card-header card-header-danger">
-              <h4 class="card-title">Material Design Icons</h4>
-              <p class="card-category">Handcrafted by our friends from
-                  <a target="_blank" href="https://fonts.google.com/icons">Google</a>
-              </p>
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <!-- Audit Form Card -->
+        <div class="card mb-4">
+          <div class="card-header card-header-danger text-center">
+            <h4 class="card-title">Audit</h4>
+            <p class="card-category">Start your Audit</p>
           </div>
-          <div class="row">
-              <div class="col-md-12">
-                  <div class="card-body">
-                      <div class="iframe-container d-none d-lg-block">
-                          <iframe src="https://material.io/design/iconography/system-icons.html#grid-and-keyline-shapes">
-                              <p>Your browser does not support iframes.</p>
-                          </iframe>
-                      </div>
-                      <div class="col-md-12 d-none d-sm-block d-md-block d-lg-none d-block d-sm-none text-center ml-auto mr-auto">
-                          <h5>The icons are visible on Desktop mode inside an iframe. Since the iframe is not working on Mobile and Tablets please visit the icons on their original page on Google. Check the
-                              <a href="https://fonts.google.com/icons" target="_blank">Material Icons</a>
-                          </h5>
-                      </div>
-                  </div>
+          <div class="card-body">
+            <form method="POST" enctype="multipart/form-data" (ngSubmit)="submitAudit($event)">
+              <!-- Company + Solution -->
+              <div class="row">
+                <div class="col-md-6">
+                  <mat-form-field appearance="fill" class="example-full-width" floatLabel="always">
+                    <mat-label>Audited Company</mat-label>
+                    <input matInput id="company-name" name="company" placeholder="Enter company name" required />
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field appearance="fill" class="example-full-width" floatLabel="always">
+                    <mat-label>Audited Solution</mat-label>
+                    <input matInput id="solution" name="solution" placeholder="Enter solution" required />
+                  </mat-form-field>
+                </div>
               </div>
+
+              <!-- Auditor Name -->
+              <div class="row">
+                <div class="col-md-6">
+                  <mat-form-field appearance="fill" class="example-full-width" floatLabel="always">
+                    <mat-label>Auditor Name</mat-label>
+                    <input matInput id="auditor-name" name="auditor" placeholder="Enter your name" required />
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <!-- Script Upload -->
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label for="script-upload" class="custom-file-upload">
+                    Upload Script
+                    </label>
+                    <input type="file" id="script-upload" name="script" (change)="onFileChange($event)" hidden />
+                </div>
+              </div>
+
+              <!-- Database Connection Details -->
+              <div class="row">
+                <div class="col-md-4">
+                  <mat-form-field appearance="fill" class="example-full-width" floatLabel="always">
+                    <mat-label>Host</mat-label>
+                    <input matInput id="host" name="host" placeholder="e.g., 127.0.0.1" required />
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field appearance="fill" class="example-full-width" floatLabel="always">
+                    <mat-label>Port</mat-label>
+                    <input matInput id="port" name="port" placeholder="e.g., 5432" required />
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field appearance="fill" class="example-full-width" floatLabel="always">
+                    <mat-label>Database Name</mat-label>
+                    <input matInput id="dbname" name="dbname" placeholder="Enter database name" required />
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <mat-form-field appearance="fill" class="example-full-width" floatLabel="always">
+                    <mat-label>Username</mat-label>
+                    <input matInput id="dbuser" name="user" placeholder="Enter DB username" required />
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field appearance="fill" class="example-full-width" floatLabel="always">
+                    <mat-label>Password</mat-label>
+                    <input matInput id="dbpassword" name="password" type="password" placeholder="Enter DB password" required />
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <!-- Start Audit Button -->
+              <div class="row mt-3">
+                <div class="col text-end">
+                  <button mat-raised-button color="warn" type="submit" class="btn">
+                    Start Audit
+                  </button>
+                </div>
+              </div>
+
+              <div class="clearfix"></div>
+            </form>
           </div>
+        </div>
       </div>
+    </div>
+
+    <!-- Audit History Table -->
+    <div class="card card-plain">
+      <div class="card-header card-header-danger text-center">
+        <h4 class="card-title">Audit History</h4>
+        <p class="card-category">Recently performed audits</p>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table mat-table [dataSource]="auditHistory" class="table table-hover mat-elevation-z8">
+
+            <!-- Audit ID -->
+            <ng-container matColumnDef="auditId">
+              <th mat-header-cell *matHeaderCellDef>Audit ID</th>
+              <td mat-cell *matCellDef="let row">{{ row.auditId }}</td>
+            </ng-container>
+
+            <!-- Company -->
+            <ng-container matColumnDef="company">
+              <th mat-header-cell *matHeaderCellDef>Company</th>
+              <td mat-cell *matCellDef="let row">{{ row.company }}</td>
+            </ng-container>
+
+            <!-- Solution -->
+            <ng-container matColumnDef="solution">
+              <th mat-header-cell *matHeaderCellDef>Solution</th>
+              <td mat-cell *matCellDef="let row">{{ row.solution }}</td>
+            </ng-container>
+
+            <!-- Version -->
+            <ng-container matColumnDef="version">
+              <th mat-header-cell *matHeaderCellDef>Solution Version</th>
+              <td mat-cell *matCellDef="let row">{{ row.version }}</td>
+            </ng-container>
+
+            <!-- Auditor -->
+            <ng-container matColumnDef="auditor">
+              <th mat-header-cell *matHeaderCellDef>Auditor</th>
+              <td mat-cell *matCellDef="let row">{{ row.auditor }}</td>
+            </ng-container>
+
+            <!-- Date -->
+            <ng-container matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef>Date</th>
+              <td mat-cell *matCellDef="let row">{{ row.date | date: 'mediumDate' }}</td>
+            </ng-container>
+
+            <!-- Status -->
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef>Status</th>
+              <td mat-cell *matCellDef="let row">
+                <span [ngClass]="{ 'text-success': row.status === 'Passed', 'text-danger': row.status === 'Failed' }">
+                  {{ row.status }}
+                </span>
+              </td>
+            </ng-container>
+
+            <!-- Results -->
+            <ng-container matColumnDef="results">
+              <th mat-header-cell *matHeaderCellDef>Results</th>
+              <td mat-cell *matCellDef="let row">
+                <button mat-icon-button color="primary" matTooltip="Download result" (click)="downloadFile(row.resultFile)">
+                  <mat-icon>download</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <!-- Table structure -->
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

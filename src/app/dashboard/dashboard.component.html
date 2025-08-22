@@ -5,7 +5,7 @@
       <!-- Audit Overview -->
       <div class="col-lg-3 col-md-6 col-sm-6">
         <div class="card card-stats">
-          <div class="card-header card-header-warning card-header-icon">
+          <div class="card-header card-header-danger card-header-icon">
             <div class="card-icon">
               <i class="material-icons">dashboard</i>
             </div>
@@ -24,7 +24,7 @@
       <!-- CIS Benchmarks -->
       <div class="col-lg-3 col-md-6 col-sm-6">
         <div class="card card-stats">
-          <div class="card-header card-header-success card-header-icon">
+          <div class="card-header card-header-icon">
             <div class="card-icon">
               <i class="material-icons">security</i>
             </div>
@@ -62,7 +62,7 @@
       <!-- Audit Reports -->
       <div class="col-lg-3 col-md-6 col-sm-6">
         <div class="card card-stats">
-          <div class="card-header card-header-info card-header-icon">
+          <div class="card-header card-header-icon">
             <div class="card-icon">
               <i class="material-icons">assessment</i>
             </div>
@@ -83,48 +83,12 @@
     <div class="row">
       <div class="col-lg-12" id="audit-overview">
         <div class="card">
-          <div class="card-header card-header-primary">
-            <h4 class="card-title">Audit Overview</h4>
-            <p class="card-category">General statistics of all audits</p>
-          </div>
-          <div class="card-body">
-            <iframe [src]="auditOverviewUrl" width="100%" height="600" frameborder="0"></iframe>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-12" id="cis-controls">
-        <div class="card">
-          <div class="card-header card-header-success">
+          <div class="card-header card-header-primary card-header-danger">
             <h4 class="card-title">CIS Benchmarks & Controls</h4>
             <p class="card-category">Security configuration checks</p>
           </div>
           <div class="card-body">
-            <iframe [src]="cisControlsUrl" width="100%" height="600" frameborder="0"></iframe>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-12" id="script-execution">
-        <div class="card">
-          <div class="card-header card-header-danger">
-            <h4 class="card-title">Script Generation & Execution</h4>
-            <p class="card-category">Execution logs & statistics</p>
-          </div>
-          <div class="card-body">
-            <iframe [src]="scriptExecutionUrl" width="100%" height="600" frameborder="0"></iframe>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-12" id="audit-results">
-        <div class="card">
-          <div class="card-header card-header-info">
-            <h4 class="card-title">Audit Results & Reporting</h4>
-            <p class="card-category">Compliance status and history</p>
-          </div>
-          <div class="card-body">
-            <iframe [src]="auditResultsUrl" width="100%" height="600" frameborder="0"></iframe>
+            <iframe [src]="auditOverviewUrl" width="100%" height="600" frameborder="0"></iframe>
           </div>
         </div>
       </div>

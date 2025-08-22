@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { AuditorService } from '../services/audit/auditor.service';
 
 interface AuditRecord {
-  auditId: string;
+  audit_id: number;       // integer
   company: string;
   solution: string;
   auditor: string;
   date: Date;
   status: string;
-  resultFile: string;      // URL object for the zip blob
-  resultFileName: string;  // name for the zip file
+  results?: string;       // report file path
+  script_file?: string;   // script file path
 }
 
 @Component({
@@ -19,15 +19,33 @@ interface AuditRecord {
 })
 export class AuditHistoryComponent implements OnInit {
   selectedFile: File | null = null;
-  
-
-  displayedColumns: string[] = ['auditId', 'company', 'solution', 'auditor', 'date', 'status', 'results'];
-
+displayedColumns: string[] = ['audit_id', 'company', 'solution', 'auditor', 'date', 'status', 'results', 'script'];
   auditHistory: AuditRecord[] = [];
 
   constructor(private auditorService: AuditorService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadAuditHistory();
+  }
+
+  loadAuditHistory(): void {
+    this.auditorService.getAuditHistory().subscribe({
+      next: (records) => {
+        // backend returns { audits: [...] }, already handled in service
+        this.auditHistory = records.map(r => ({
+          audit_id: r.audit_id,
+          company: r.company,
+          solution: r.solution,
+          auditor: r.auditor,
+          date: new Date(r.date),
+          status: r.status,
+          results: r.results,        // report file path
+          script_file: r.script_file // script file path
+        }));
+      },
+      error: (err) => console.error('Failed to fetch audit history:', err)
+    });
+  }
 
   onFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -36,80 +54,55 @@ export class AuditHistoryComponent implements OnInit {
     }
   }
 
+  submitAudit(event: Event): void {
+    event.preventDefault();
+    const form = event.target as HTMLFormElement;
+    const formData = new FormData();
 
-  
- submitAudit(event: Event): void {
-  event.preventDefault();
-  const form = event.target as HTMLFormElement;
-  const formData = new FormData();
-
-  const formValues: any = {};
-  const inputs = form.querySelectorAll('input[name], select[name], textarea[name]');
-  inputs.forEach((input: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement) => {
-    if (input instanceof HTMLInputElement && input.type === 'file') {
-      if (this.selectedFile) {
-        formData.append(input.name, this.selectedFile, this.selectedFile.name);
+    const inputs = form.querySelectorAll('input[name], select[name], textarea[name]');
+    inputs.forEach((input: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement) => {
+      if (input instanceof HTMLInputElement && input.type === 'file') {
+        if (this.selectedFile) {
+          formData.append(input.name, this.selectedFile, this.selectedFile.name);
+        }
+      } else {
+        formData.append(input.name, input.value);
       }
-    } else {
-      formValues[input.name] = input.value;
-      formData.append(input.name, input.value);
-    }
-  });
+    });
 
-  this.auditorService.runAudit(formData).subscribe({
-    next: (zipBlob: Blob) => {
-      const zipUrl = URL.createObjectURL(zipBlob);
-      const resultFileName = `audit_${Date.now()}.zip`;
+    this.auditorService.runAudit(formData).subscribe({
+      next: (zipBlob: Blob) => {
+        if (zipBlob.size > 0) {
+          const resultFileName = `audit_${Date.now()}.zip`;
+          const anchor = document.createElement('a');
+          anchor.href = URL.createObjectURL(zipBlob);
+          anchor.download = resultFileName;
+          anchor.click();
 
-      const newRecord: AuditRecord = {
-        auditId: 'AUD-' + Math.floor(Math.random() * 10000),
-        company: formValues['company'] || '',
-        solution: formValues['solution'] || '',
-        auditor: formValues['auditor'] || '',
-        date: new Date(),
-        status: 'Passed',
-        resultFile: zipUrl,
-        resultFileName: resultFileName
-      };
+          // Refresh audit history after a new audit
+          this.loadAuditHistory();
+        }
+      },
+      error: (err) => {
+        console.error('Audit failed', err);
+        this.loadAuditHistory(); // still refresh to show failed attempts
+      }
+    });
+  }
 
-      // Update auditHistory with new array reference to trigger change detection
-      this.auditHistory = [newRecord, ...this.auditHistory];
-
-      // Trigger download but don't revoke URL here
-      const anchor = document.createElement('a');
-      anchor.href = zipUrl;
-      anchor.download = resultFileName;
-      anchor.click();
+downloadFile(filePath: string): void {
+  if (!filePath) return;
+  const filename = filePath.split('/').pop();
+  if (!filename) return;
+  this.auditorService.downloadAudit(filename).subscribe({
+    next: (blob: Blob) => {
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = filename;
+      link.click();
     },
-    error: (err) => {
-      console.error('Audit failed', err);
-      alert('Erreur lors de l\'exécution de l\'audit.');
-
-      const newRecord: AuditRecord = {
-        auditId: 'AUD-' + Math.floor(Math.random() * 10000),
-        company: formValues['company'] || '',
-        solution: formValues['solution'] || '',
-        auditor: formValues['auditor'] || '',
-        date: new Date(),
-        status: 'Failed',
-        resultFile: '',
-        resultFileName: ''
-      };
-
-      this.auditHistory = [newRecord, ...this.auditHistory];
-    }
+    error: () => alert('Failed to download file.')
   });
 }
 
-
-  downloadDynamicFile(row: AuditRecord): void {
-    if (!row.resultFile) {
-      alert('No file available for download.');
-      return;
-    }
-    const link = document.createElement('a');
-    link.href = row.resultFile;
-    link.download = row.resultFileName || 'audit_result.zip';
-    link.click();
-  }
 }

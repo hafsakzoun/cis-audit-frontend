@@ -11,43 +11,85 @@
       </div>
 
     <div class="register-right d-flex justify-content-center align-items-start flex-grow-1">
-      <div class="register-form w-100">
-        <h3 class="register-heading mb-4">Register Form</h3>
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form w-100">
+  <h3 class="register-heading mb-4">Register Form</h3>
 
-        <!-- First row -->
-        <div class="row mb-4 gx-4">
-          <div class="col-md-6">
-            <input type="text" class="form-control form-control-lg" placeholder="First Name *" />
-          </div>
-          <div class="col-md-6">
-            <input type="text" class="form-control form-control-lg" placeholder="Last Name *" />
-          </div>
-        </div>
-
-        <!-- Email row -->
-        <div class="row mb-4">
-          <div class="col-md-12">
-            <input type="email" class="form-control form-control-lg" placeholder="Your Email *" />
-          </div>
-        </div>
-
-        <!-- Passwords row -->
-        <div class="row mb-4 gx-4">
-          <div class="col-md-6">
-            <input type="password" class="form-control form-control-lg" placeholder="Password *" />
-          </div>
-          <div class="col-md-6">
-            <input type="password" class="form-control form-control-lg" placeholder="Confirm Password *" />
-          </div>
-        </div>
-
-        <!-- Submit button row -->
-        <div class="row">
-          <div class="col-12">
-            <input type="submit" class="btnRegister btn btn-primary" value="Register" />
-          </div>
-        </div>
+  <!-- First row -->
+  <div class="row mb-4 gx-4">
+    <div class="col-md-6">
+      <input
+        type="text"
+        formControlName="firstName"
+        class="form-control form-control-lg"
+        placeholder="First Name *"
+      />
+      <div *ngIf="submitted && f.firstName.errors" class="text-danger">
+        First Name is required
       </div>
+    </div>
+    <div class="col-md-6">
+      <input
+        type="text"
+        formControlName="lastName"
+        class="form-control form-control-lg"
+        placeholder="Last Name *"
+      />
+      <div *ngIf="submitted && f.lastName.errors" class="text-danger">
+        Last Name is required
+      </div>
+    </div>
+  </div>
+
+  <!-- Email row -->
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <input
+        type="email"
+        formControlName="email"
+        class="form-control form-control-lg"
+        placeholder="Your Email *"
+      />
+      <div *ngIf="submitted && f.email.errors" class="text-danger">
+        <div *ngIf="f.email.errors['required']">Email is required</div>
+        <div *ngIf="f.email.errors['email']">Email is invalid</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Passwords row -->
+  <div class="row mb-4 gx-4">
+    <div class="col-md-6">
+      <input
+        type="password"
+        formControlName="password"
+        class="form-control form-control-lg"
+        placeholder="Password *"
+      />
+      <div *ngIf="submitted && f.password.errors" class="text-danger">
+        Password is required
+      </div>
+    </div>
+    <div class="col-md-6">
+      <input
+        type="password"
+        formControlName="confirmPassword"
+        class="form-control form-control-lg"
+        placeholder="Confirm Password *"
+      />
+      <div *ngIf="submitted && f.confirmPassword.errors" class="text-danger">
+        Confirm Password is required and must match Password
+      </div>
+    </div>
+  </div>
+
+  <!-- Submit button row -->
+  <div class="row">
+    <div class="col-12">
+      <button type="submit" class="btnRegister btn btn-primary">Register</button>
+    </div>
+  </div>
+</form>
+
     </div>
   </div>
 
